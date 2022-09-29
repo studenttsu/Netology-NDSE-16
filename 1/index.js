@@ -1,5 +1,5 @@
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 const context = yargs(hideBin(process.argv))
     .command('current', 'Получить текущую дату. При наличии опций вернёт год, месяц или день месяца')
