@@ -1,0 +1,1 @@
+console.log('Netology Node.js course');
