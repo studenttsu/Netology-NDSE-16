@@ -1,9 +1,22 @@
 const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
 
-const context = yargs(process.argv.slice(2))
-    .alias('y', 'year')
-    .alias('m', 'month')
-    .alias('d', ['date', 'day'])
+const context = yargs(hideBin(process.argv))
+    .command('current', 'Получить текущую дату. При наличии опций вернёт год, месяц или день месяца')
+    .command('add', 'Получить дату в будущем. Возвращает дату в формате ISO')
+    .command('sub', 'Получить дату в прошлом. Возвращает дату в формате ISO')
+    .option('year', {
+        alias: 'y',
+        type: 'number'
+    })
+    .option('month', {
+        alias: 'm',
+        type: 'number'
+    })
+    .option('day', {
+        alias: 'd',
+        type: 'number'
+    })
     .argv;
 
 const Commands = {
@@ -12,27 +25,24 @@ const Commands = {
     Sub: 'sub'
 };
 
-if (context._.includes('cmd')) {
-    const action = context._[1];
-    const availableCommands = Object.values(Commands);
+init();
 
+function init() {
+    const action = context._[0];
+    const availableCommands = Object.values(Commands);
+    
     if (!action || !availableCommands.includes(action)) {
         throw new Error('Unknown command. Avaliable commands: current, add, sub');
     }
-
+    
     if (action === Commands.Current) {
         console.log(getCurrentDate());
-        return;
     }
-
+    
     if (action === Commands.Add || action === Commands.Sub) {
         console.log(getDifferentDate(action));
-        return;
     }
-} else {
-    throw new Error('Use "cmd" command to start getting date.');
 }
-
 
 function getCurrentDate() {
     const date = new Date();
@@ -45,7 +55,7 @@ function getCurrentDate() {
         return date.getMonth();
     }
 
-    if (context.hasOwnProperty('date')) {
+    if (context.hasOwnProperty('day')) {
         return date.getDate();
     }
 
