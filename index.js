@@ -1,9 +1,7 @@
-import * as dotenv from 'dotenv';
 import http from 'http';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-
-dotenv.config();
+import { config } from "./config.js";
 
 const context = yargs(hideBin(process.argv))
     .option('city', {
@@ -38,7 +36,7 @@ async function init() {
 
 function getWeather(city) {
     return new Promise((resolve, reject) => {
-        http.get(`${'http://api.weatherstack.com'}/current?access_key=${process.env.API_TOKEN}&query=${city}`, res => {
+        http.get(`${config.apiHost}/current?access_key=${config.apiToken}&query=${city}`, res => {
             if (res.statusCode !== 200) {
                 reject(new Error('Weatherstack request error'));
                 return;
