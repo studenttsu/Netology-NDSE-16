@@ -2,5 +2,13 @@
   "name": "nodejs-course",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "yargs": "^17.6.0"
+  },
+  "engines": {
+    "node": "19.0.0"
+  },
+  "type": "module"
 }
